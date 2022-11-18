@@ -68,14 +68,6 @@ header {
   padding: 20px;
 }
 
-#coluna-direita {
-  display: flex;
-  flex-direction: column;
-  font-family: Inter, sans-serif;
-  background-color: #F6F7F9;
-  flex-grow: 4;
-}
-
 #form {
   font-family: 'Open Sans', sans-serif;
   font-size: 15px;
@@ -144,18 +136,29 @@ select {
   border-radius: 32px;
 }
 
+#coluna-direita {
+  display: flex;
+  flex-direction: column;
+  font-family: Inter, sans-serif;
+  background-color: #F6F7F9;
+  flex-grow: 4;
+}
+
 #grid-group {
   display: flex;
   flex-direction: row;
-  align-content: space-around;
+  align-content: center;
+  justify-content: space-around;
   gap: 20px;
+  font-family: Inter, sans-serif;
 }
 
 #grid-group div {
   box-shadow: 2px 2px 20px gray;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  text-align: center;
+  align-content: center;
   width: 100px;
   height: 67px;
   background-color: white;
@@ -163,6 +166,14 @@ select {
   padding: 10px;
   /*margin: 10px;*/
   gap: 10px;
+}
+
+.grid-titulo {
+  font-size: 18px;
+}
+
+.grid-valor {
+  font-size: 38px;
 }
 
 #coluna-direita header {
@@ -173,12 +184,14 @@ select {
 #pesquisar-titulo {
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
+  font-family: Inter, sans-serif;
 }
 
 #form-pesquisar-titulo {
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: 10px;
   flex-grow: 1;
   margin: 20px;
 }
@@ -192,6 +205,7 @@ select {
   border: 2px solid #1E195B;
   border-radius: 64px;
   flex-grow: 10;
+  font-family: Inter, sans-serif;
 }
 
 #pesquisar-titulo button {
@@ -205,6 +219,7 @@ select {
   background: #FFFFFF;
   border: 2px solid #1E195B;
   border-radius: 50px;
+  font-family: Inter, sans-serif;
 }
 
 #card-list {
