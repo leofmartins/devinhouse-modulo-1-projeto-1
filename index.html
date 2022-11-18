@@ -25,19 +25,19 @@
 
       <div id="inputs">
         <label for="titulo">Título</label>
-        <input type="text" name="titulo" id="titulo">
+        <input type="text" name="titulo" id="titulo" minlength="8" maxlength="64" required>
         <label for="linguagen-skill">Linguagem/Skill</label>
-        <input type="text" name="linguagem-skill" id="linguagen-skill">
+        <input type="text" name="linguagem-skill" id="linguagen-skill" minlength="2" maxlength="16" required>
         <label for="categoria">Categoria</label>
-        <select name="categoria" id="categoria">
+        <select name="categoria" id="categoria" required>
           <option value="">Selecione Uma Categoria</option>
           <option value="frontend">FrontEnd</option>
           <option value="backtend">BackEnd</option>
           <option value="fullstack">FullStack</option>
-          <option value="softskill">SoftSkill</option>
+          <option value="softskill">Comportamental/SoftSkill</option>
         </select>
         <label for="descricao">Descrição</label>
-        <textarea name="descricao" id="descricao" cols="30" rows="10" placeholder="Descreva aqui o detalhamento da sua dica..."></textarea>
+        <textarea name="descricao" id="descricao" cols="30" rows="10" placeholder="Descreva aqui o detalhamento da sua dica..."  minlength="16" maxlength="512" required></textarea>
         <label for="video">Vídeo do YouTube</label>
         <input type="url" name="video" id="video">
       </div>
@@ -89,56 +89,7 @@
 
     <main id="card-list">
       <ul>
-        <li class="card">
-          <div>
-            <h1 id="card-titulo">Grid vs Flex Box</h1>
-            <h2 id="card-subtitulo-1">Linguagem Skill: CSS</h2>
-            <h2 id="card-subtitulo-2">FrontEnd</h2>
-            <p>
-              Lorem ipsum.
-            </p>
-          <li class="card">
-          <div>
-            <h1 id="card-titulo">Grid vs Flex Box</h1>
-            <h2 id="card-subtitulo-1">Linguagem Skill: CSS</h2>
-            <h2 id="card-subtitulo-2">FrontEnd</h2>
-            <p>
-              Lorem ipsum.
-            </p>
-          <li class="card">
-          <div>
-            <h1 id="card-titulo">Grid vs Flex Box</h1>
-            <h2 id="card-subtitulo-1">Linguagem Skill: CSS</h2>
-            <h2 id="card-subtitulo-2">FrontEnd</h2>
-            <p>
-              Lorem ipsum.
-            </p>
-          <li class="card">
-          <div>
-            <h1 id="card-titulo">Grid vs Flex Box</h1>
-            <h2 id="card-subtitulo-1">Linguagem Skill: CSS</h2>
-            <h2 id="card-subtitulo-2">FrontEnd</h2>
-            <p>
-              Lorem ipsum.
-            </p>
-          <li class="card">
-          <div>
-            <h1 id="card-titulo">Grid vs Flex Box</h1>
-            <h2 id="card-subtitulo-1">Linguagem Skill: CSS</h2>
-            <h2 id="card-subtitulo-2">FrontEnd</h2>
-            <p>
-              Lorem ipsum.
-            </p>
-          <li class="card">
-          <div>
-            <h1 id="card-titulo">Grid vs Flex Box</h1>
-            <h2 id="card-subtitulo-1">Linguagem Skill: CSS</h2>
-            <h2 id="card-subtitulo-2">FrontEnd</h2>
-            <p>
-              Lorem ipsum.
-            </p>
-          </div>
-        </li>
+
       </ul>
     </main>
 

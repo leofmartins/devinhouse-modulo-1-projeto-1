@@ -206,6 +206,7 @@ select {
   border-radius: 64px;
   flex-grow: 10;
   font-family: Inter, sans-serif;
+  font-size: 20px;
 }
 
 #pesquisar-titulo button {
@@ -220,6 +221,7 @@ select {
   border: 2px solid #1E195B;
   border-radius: 50px;
   font-family: Inter, sans-serif;
+  font-size: 20px;
 }
 
 #card-list {
