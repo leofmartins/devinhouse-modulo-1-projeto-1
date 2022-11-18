@@ -238,6 +238,7 @@ select {
   box-shadow: 2px 2px 20px gray;
   padding: 20px;
   margin: 20px;
+  line-height: 2;
 }
 
 .card-titulo {

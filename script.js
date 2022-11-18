@@ -1,11 +1,6 @@
-const dicas = [];
-
 const form = document.getElementById("form");
 
-const listaDeCards = document.getElementById("lista-de-cards")
-
-window.addEventListener("load", renderizaCards);
-// form.addEventListener("submit", salvarDica);
+const listaDeCards = document.getElementById("lista-de-cards");
 
 function renderizaCards() {
   // event.preventDefault();
@@ -18,8 +13,8 @@ function renderizaCards() {
     const card = document.createElement("li");
     const containerDeItens = document.createElement("div");
     const cardTitulo = document.createElement("h1");
-    const cardPrimeiroSubtitulo = document.createElement("h2")
-    const cardSegundoSubtitulo = document.createElement("h2");
+    const cardPrimeiroSubtitulo = document.createElement("p")
+    const cardSegundoSubtitulo = document.createElement("p");
     const conteudoCard = document.createElement("p");
 
     card.setAttribute("class", "card");
@@ -28,8 +23,8 @@ function renderizaCards() {
     cardSegundoSubtitulo.setAttribute("class", "card-subtitulo-2");
 
     cardTitulo.textContent = item.titulo;
-    cardPrimeiroSubtitulo.textContent = item.linguagemSkill;
-    cardSegundoSubtitulo.textContent = item.categoria;
+    cardPrimeiroSubtitulo.textContent = `Linguagem/Skill: ${item.linguagemSkill}`;
+    cardSegundoSubtitulo.textContent = `Categoria: ${item.categoria}`;
     conteudoCard.textContent = item.descricao;
 
     // TODO - criar item do link do video e botões de editar e excluir
@@ -43,8 +38,17 @@ function renderizaCards() {
   });
 }
 
+function verificaLocalStorage() {
+  if (!localStorage.getItem("listaDicas")) {
+    localStorage.setItem("listaDicas", JSON.stringify([]));
+  }
+}
+
 function salvarDica(event) {
+
   event.preventDefault();
+
+  verificaLocalStorage();
 
   const titulo = document.getElementById("titulo");
   const linguagemSkill = document.getElementById("linguagen-skill");
@@ -52,7 +56,11 @@ function salvarDica(event) {
   const descricao = document.getElementById("descricao");
   const linkVideo = document.getElementById("video");
 
-  dicas.push({
+  const listaDicas = localStorage.getItem("listaDicas");
+
+  console.log(typeof listaDicas);
+
+  listaDicas.push({
     titulo: titulo.value,
     linguagemSkill: linguagemSkill.value,
     categoria: categoria.value,
@@ -60,9 +68,9 @@ function salvarDica(event) {
     linkVideo: linkVideo.value
   });
 
-  console.log(dicas);
+  console.log(listaDicas);
 
-  const objeto = JSON.stringify(dicas);
+  const objeto = JSON.stringify(listaDicas);
 
   console.log(objeto);
 
@@ -70,3 +78,6 @@ function salvarDica(event) {
 
   form.reset();
 }
+
+window.addEventListener("load", renderizaCards);
+form.addEventListener("submit", salvarDica);
