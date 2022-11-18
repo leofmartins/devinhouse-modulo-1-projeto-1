@@ -226,7 +226,7 @@ select {
 
 #card-list {
   background: #F6F7F9;
-  overflow: scroll;
+  overflow-x: scroll;
 }
 
 .card {
@@ -240,6 +240,6 @@ select {
   margin: 20px;
 }
 
-#card-titulo {
+.card-titulo {
   text-align: center;
 }

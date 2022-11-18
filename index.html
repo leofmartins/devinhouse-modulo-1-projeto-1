@@ -25,9 +25,21 @@
 
       <div id="inputs">
         <label for="titulo">Título</label>
-        <input type="text" name="titulo" id="titulo" minlength="8" maxlength="64" required>
+        <input
+          type="text"
+          name="titulo"
+          id="titulo"
+          minlength="8"
+          maxlength="64"
+          required>
         <label for="linguagen-skill">Linguagem/Skill</label>
-        <input type="text" name="linguagem-skill" id="linguagen-skill" minlength="2" maxlength="16" required>
+        <input
+          type="text"
+          name="linguagem-skill"
+          id="linguagen-skill"
+          minlength="2"
+          maxlength="16"
+          required>
         <label for="categoria">Categoria</label>
         <select name="categoria" id="categoria" required>
           <option value="">Selecione Uma Categoria</option>
@@ -37,7 +49,15 @@
           <option value="softskill">Comportamental/SoftSkill</option>
         </select>
         <label for="descricao">Descrição</label>
-        <textarea name="descricao" id="descricao" cols="30" rows="10" placeholder="Descreva aqui o detalhamento da sua dica..."  minlength="16" maxlength="512" required></textarea>
+        <textarea
+          name="descricao"
+          id="descricao"
+          cols="30" rows="10"
+          placeholder="Descreva aqui o detalhamento da sua dica..."
+          minlength="16"
+          maxlength="512"
+          required>
+        </textarea>
         <label for="video">Vídeo do YouTube</label>
         <input type="url" name="video" id="video">
       </div>
@@ -80,7 +100,10 @@
       <div id="pesquisar-titulo">
         <form id="form-pesquisar-titulo">
           <label for="campo-pesquisar-titulo" hidden>Pesquisar Título</label>
-          <input type="text" id="campo-pesquisar-titulo" placeholder="Digite um títulos para pesquisar...">
+          <input
+            type="text"
+            id="campo-pesquisar-titulo"
+            placeholder="Digite um títulos para pesquisar...">
           <button type="submit" class="botao-pesquisa">Pesquisar</button>
           <button type="reset" class="botao-pesquisa">Limpar</button>
         </form>
@@ -88,7 +111,7 @@
     </header>
 
     <main id="card-list">
-      <ul>
+      <ul id="lista-de-cards">
 
       </ul>
     </main>
