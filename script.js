@@ -93,6 +93,36 @@ function salvarItem(event) {
   carregaListaDicas();
 }
 
+function contabilizaCategorias() {
+  let frontEnd = 0;
+  let backEnd = 0;
+  let fullStack = 0;
+  let softSkill = 0;
+  let total = 0;
+
+  listaDicas.forEach(item => {
+    switch (item.categoria) {
+      case "FontEnd":
+        frontEnd++;
+        break;
+      case "BackEnd":
+        backEnd++;
+      case "FullStack":
+        fullStack++;
+        break;
+      case "SoftsKill":
+        softSkill++
+        break;
+      default:
+        break;
+    }
+  });
+
+  total = frontEnd + backEnd + fullStack + softSkill;
+
+
+}
+
 window.addEventListener("load", verificaLocalStorage);
 window.addEventListener("load", carregaListaDicas);
 form.addEventListener("submit", salvarItem);
