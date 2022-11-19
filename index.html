@@ -31,6 +31,8 @@
           id="titulo"
           minlength="8"
           maxlength="64"
+          placeholder="Digite um título"
+          autofocus
           required>
         <label for="linguagen-skill">Linguagem/Skill</label>
         <input
@@ -39,10 +41,11 @@
           id="linguagen-skill"
           minlength="2"
           maxlength="16"
+          placeholder="Digite um linguagem ou skill"
           required>
         <label for="categoria">Categoria</label>
         <select name="categoria" id="categoria" required>
-          <option value="">Selecione Uma Categoria</option>
+          <option value="" selected="selected" id="selection-placeholder">Selecione Uma Categoria</option>
           <option value="FrontEnd">FrontEnd</option>
           <option value="BackEnd">BackEnd</option>
           <option value="FullStack">FullStack</option>
@@ -53,18 +56,17 @@
           name="descricao"
           id="descricao"
           cols="30" rows="5"
-          placeholder="Descreva aqui o detalhamento da sua dica..."
           minlength="16"
           maxlength="512"
-          required>
-        </textarea>
+          placeholder="Descreva aqui o detalhamento da sua dica..."
+          required></textarea>
         <label for="video">Vídeo do YouTube</label>
-        <input type="url" name="video" id="video">
+        <input type="url" name="video" id="video" placeholder="https://suaurl.com">
       </div>
 
       <div id="botoes-form">
-        <button type="reset" id="botao-limpar">Limpar</button>
-        <button type="submit" id="botao-salvar">Salvar</button>
+        <button type="reset" id="botao-limpar" class="form-botoes">Limpar</button>
+        <button type="submit" id="botao-salvar" class="form-botoes">Salvar</button>
       </div>
 
     </form>
@@ -92,7 +94,7 @@
           <p class="grid-valor" id="grid-fullstack">0</p>
         </div>
         <div>
-          <h2 class="grid-titulo" id>SoftSkill</h2>
+          <h2 class="grid-titulo">SoftSkill</h2>
           <p class="grid-valor" id="grid-softskill">0</p>
         </div>
       </div>

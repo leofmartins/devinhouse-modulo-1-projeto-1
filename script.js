@@ -3,7 +3,7 @@ let listaDicas = [];
 
 function verificaLocalStorage() {
   if (localStorage.getItem("listaDicas")) {
-    listaDicas = JSON.parse(localStorage.getItem("listaDicas"))
+    listaDicas = JSON.parse(localStorage.getItem("listaDicas"));
     console.log("listaDicas carragado do localStorage");
   } else {
     localStorage.setItem("listaDicas", "[]");
@@ -66,7 +66,7 @@ function carregaListaDicas() {
     card.appendChild(container);
 
     listaCards.appendChild(card);
-  })
+  });
 }
 
 function salvarItem(event) {
@@ -96,6 +96,8 @@ function salvarItem(event) {
 }
 
 function contabilizaCategorias() {
+  console.log(listaDicas);
+
   let frontEnd = 0;
   let backEnd = 0;
   let fullStack = 0;
@@ -113,7 +115,7 @@ function contabilizaCategorias() {
         fullStack++;
         break;
       case "SoftSkill":
-        softSkill++
+        softSkill++;
         break;
       default:
         break;
@@ -123,10 +125,10 @@ function contabilizaCategorias() {
   let total = frontEnd + backEnd + fullStack + softSkill;
 
   console.log(`Total: ${total}`);
-  console.log(`Total: ${frontEnd}`);
-  console.log(`Total: ${backEnd}`);
-  console.log(`Total: ${fullStack}`);
-  console.log(`Total: ${softSkill}`);
+  console.log(`FrontEnd: ${frontEnd}`);
+  console.log(`BackEnd: ${backEnd}`);
+  console.log(`FullStack: ${fullStack}`);
+  console.log(`SoftSkill: ${softSkill}`);
 
 
   let gridTotal = document.getElementById("grid-total");
@@ -145,5 +147,6 @@ function contabilizaCategorias() {
 
 window.addEventListener("load", verificaLocalStorage);
 window.addEventListener("load", carregaListaDicas);
+window.addEventListener("load", () => console.log(listaDicas));
 window.addEventListener("load", contabilizaCategorias);
 form.addEventListener("submit", salvarItem);
