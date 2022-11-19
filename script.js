@@ -91,6 +91,8 @@ function salvarItem(event) {
   form.reset();
 
   carregaListaDicas();
+
+  contabilizaCategorias();
 }
 
 function contabilizaCategorias() {
@@ -98,19 +100,19 @@ function contabilizaCategorias() {
   let backEnd = 0;
   let fullStack = 0;
   let softSkill = 0;
-  let total = 0;
 
   listaDicas.forEach(item => {
     switch (item.categoria) {
-      case "FontEnd":
+      case "FrontEnd":
         frontEnd++;
         break;
       case "BackEnd":
         backEnd++;
+        break;
       case "FullStack":
         fullStack++;
         break;
-      case "SoftsKill":
+      case "SoftSkill":
         softSkill++
         break;
       default:
@@ -118,11 +120,30 @@ function contabilizaCategorias() {
     }
   });
 
-  total = frontEnd + backEnd + fullStack + softSkill;
+  let total = frontEnd + backEnd + fullStack + softSkill;
 
+  console.log(`Total: ${total}`);
+  console.log(`Total: ${frontEnd}`);
+  console.log(`Total: ${backEnd}`);
+  console.log(`Total: ${fullStack}`);
+  console.log(`Total: ${softSkill}`);
+
+
+  let gridTotal = document.getElementById("grid-total");
+  let gridFrontEnd = document.getElementById("grid-frontend");
+  let gridBackEnd = document.getElementById("grid-backend");
+  let gridFullStack = document.getElementById("grid-fullstack");
+  let gridSoftSkill = document.getElementById("grid-softskill");
+
+  gridTotal.textContent = total.toString();
+  gridFrontEnd.textContent = frontEnd.toString();
+  gridBackEnd.textContent = backEnd.toString();
+  gridFullStack.textContent = fullStack.toString();
+  gridSoftSkill.textContent = softSkill.toString();
 
 }
 
 window.addEventListener("load", verificaLocalStorage);
 window.addEventListener("load", carregaListaDicas);
+window.addEventListener("load", contabilizaCategorias);
 form.addEventListener("submit", salvarItem);
