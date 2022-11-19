@@ -12,11 +12,13 @@ function verificaLocalStorage() {
 }
 
 function carregaListaDicas() {
-  console.log("Carregando lista de cards...");
-  console.log(listaDicas);
+  const listaCards = document.getElementById("lista-de-cards");
+
+  while (listaCards.hasChildNodes()) {
+    listaCards.removeChild(listaCards.firstChild);
+  }
 
   listaDicas.forEach(item => {
-    const listaCards = document.getElementById("lista-de-cards");
 
     const card = document.createElement("li");
     const container = document.createElement("div");
@@ -28,25 +30,31 @@ function carregaListaDicas() {
     const linkVideo = document.createElement("a");
     const botaoEditar = document.createElement("button");
     const botaoExcluir = document.createElement("button");
-
-    console.log(item);
+    const iconeEditar = document.createElement("img");
+    const iconeExcluir = document.createElement("img");
+    const iconeVideo = document.createElement("img");
 
     cardTitulo.textContent = item.titulo;
 
     cardPrimeiroSubtitulo.textContent = `Linguagem/Skill: ${item.linguagemSkill}`;
     cardSegundoSubtitulo.textContent = `Categoria: ${item.categoria}`;
     cardParagrafo.textContent = item.descricao;
-    botaoEditar.textContent = "Editar";
-    botaoExcluir.textContent = "Excluir";
+
+    iconeEditar.setAttribute("src", "./icons/editar.png");
+    iconeExcluir.setAttribute("src", "./icons/excluir.png");
+    iconeVideo.setAttribute("src", "./icons/video.png");
 
     card.setAttribute("class", "card");
     containerBotoes.setAttribute("class", "cards-botoes");
     cardPrimeiroSubtitulo.setAttribute("class", "card-titulo");
 
+    botaoEditar.appendChild(iconeEditar);
+    botaoExcluir.appendChild(iconeExcluir);
+
     containerBotoes.appendChild(botaoExcluir);
     containerBotoes.appendChild(botaoEditar);
     if (item.linkVideo) {
-      linkVideo.textContent = "Video";
+      linkVideo.appendChild(iconeVideo);
       linkVideo.setAttribute("href", item.linkVideo);
       containerBotoes.appendChild(linkVideo);
     }
@@ -61,7 +69,8 @@ function carregaListaDicas() {
   })
 }
 
-function salvarItem() {
+function salvarItem(event) {
+  event.preventDefault();
 
   const titulo = document.getElementById("titulo");
   const linguagemSkill = document.getElementById("linguagen-skill");
@@ -78,6 +87,10 @@ function salvarItem() {
   });
 
   localStorage.setItem("listaDicas", JSON.stringify(listaDicas));
+
+  form.reset();
+
+  carregaListaDicas();
 }
 
 window.addEventListener("load", verificaLocalStorage);
