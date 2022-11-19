@@ -1,83 +1,85 @@
 const form = document.getElementById("form");
-
-const listaDeCards = document.getElementById("lista-de-cards");
-
-function renderizaCards() {
-  // event.preventDefault();
-
-  const listaDicas = JSON.parse(localStorage.getItem("listaDicas"));
-
-  console.log(listaDicas);
-
-  listaDicas.forEach((item) => {
-    const card = document.createElement("li");
-    const containerDeItens = document.createElement("div");
-    const cardTitulo = document.createElement("h1");
-    const cardPrimeiroSubtitulo = document.createElement("p")
-    const cardSegundoSubtitulo = document.createElement("p");
-    const conteudoCard = document.createElement("p");
-
-    card.setAttribute("class", "card");
-    cardTitulo.setAttribute("class", "card-titulo");
-    cardPrimeiroSubtitulo.setAttribute("class", "card-subtitulo-1");
-    cardSegundoSubtitulo.setAttribute("class", "card-subtitulo-2");
-
-    cardTitulo.textContent = item.titulo;
-    cardPrimeiroSubtitulo.textContent = `Linguagem/Skill: ${item.linguagemSkill}`;
-    cardSegundoSubtitulo.textContent = `Categoria: ${item.categoria}`;
-    conteudoCard.textContent = item.descricao;
-
-    // TODO - criar item do link do video e botões de editar e excluir
-
-    containerDeItens.appendChild(cardTitulo);
-    containerDeItens.appendChild(cardPrimeiroSubtitulo);
-    containerDeItens.appendChild(cardSegundoSubtitulo);
-    containerDeItens.appendChild(conteudoCard);
-    card.appendChild(containerDeItens);
-    listaDeCards.appendChild(card);
-  });
-}
+let listaDicas = [];
 
 function verificaLocalStorage() {
-  if (!localStorage.getItem("listaDicas")) {
-    localStorage.setItem("listaDicas", JSON.stringify([]));
+  if (localStorage.getItem("listaDicas")) {
+    listaDicas = JSON.parse(localStorage.getItem("listaDicas"))
+    console.log("listaDicas carragado do localStorage");
+  } else {
+    localStorage.setItem("listaDicas", "[]");
+    console.log("listaDicas criada no localStorage");
   }
 }
 
-function salvarDica(event) {
+function carregaListaDicas() {
+  console.log("Carregando lista de cards...");
+  console.log(listaDicas);
 
-  event.preventDefault();
+  listaDicas.forEach(item => {
+    const listaCards = document.getElementById("lista-de-cards");
 
-  verificaLocalStorage();
+    const card = document.createElement("li");
+    const container = document.createElement("div");
+    const cardTitulo = document.createElement("h3");
+    const cardPrimeiroSubtitulo = document.createElement("p");
+    const cardSegundoSubtitulo = document.createElement("p");
+    const cardParagrafo = document.createElement("p");
+    const containerBotoes = document.createElement("div");
+    const linkVideo = document.createElement("a");
+    const botaoEditar = document.createElement("button");
+    const botaoExcluir = document.createElement("button");
+
+    console.log(item);
+
+    cardTitulo.textContent = item.titulo;
+
+    cardPrimeiroSubtitulo.textContent = `Linguagem/Skill: ${item.linguagemSkill}`;
+    cardSegundoSubtitulo.textContent = `Categoria: ${item.categoria}`;
+    cardParagrafo.textContent = item.descricao;
+    botaoEditar.textContent = "Editar";
+    botaoExcluir.textContent = "Excluir";
+
+    card.setAttribute("class", "card");
+    containerBotoes.setAttribute("class", "cards-botoes");
+    cardPrimeiroSubtitulo.setAttribute("class", "card-titulo");
+
+    containerBotoes.appendChild(botaoExcluir);
+    containerBotoes.appendChild(botaoEditar);
+    if (item.linkVideo) {
+      linkVideo.textContent = "Video";
+      linkVideo.setAttribute("href", item.linkVideo);
+      containerBotoes.appendChild(linkVideo);
+    }
+    container.appendChild(cardTitulo);
+    container.appendChild(cardPrimeiroSubtitulo);
+    container.appendChild(cardSegundoSubtitulo);
+    container.appendChild(cardParagrafo);
+    container.appendChild(containerBotoes);
+    card.appendChild(container);
+
+    listaCards.appendChild(card);
+  })
+}
+
+function salvarItem() {
 
   const titulo = document.getElementById("titulo");
   const linguagemSkill = document.getElementById("linguagen-skill");
   const categoria = document.getElementById("categoria");
   const descricao = document.getElementById("descricao");
-  const linkVideo = document.getElementById("video");
-
-  const listaDicas = localStorage.getItem("listaDicas");
-
-  console.log(typeof listaDicas);
+  const likVideo = document.getElementById("video");
 
   listaDicas.push({
     titulo: titulo.value,
     linguagemSkill: linguagemSkill.value,
     categoria: categoria.value,
     descricao: descricao.value,
-    linkVideo: linkVideo.value
+    linkVideo: likVideo.value
   });
 
-  console.log(listaDicas);
-
-  const objeto = JSON.stringify(listaDicas);
-
-  console.log(objeto);
-
-  localStorage.setItem("listaDicas", objeto);
-
-  form.reset();
+  localStorage.setItem("listaDicas", JSON.stringify(listaDicas));
 }
 
-window.addEventListener("load", renderizaCards);
-form.addEventListener("submit", salvarDica);
+window.addEventListener("load", verificaLocalStorage);
+window.addEventListener("load", carregaListaDicas);
+form.addEventListener("submit", salvarItem);

@@ -18,7 +18,7 @@ h3 {
 body {
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 
 body {
@@ -59,13 +59,14 @@ header {
 
 
 #coluna-esquerda {
-  /*max-width: 320px;*/
+  min-width: 400px;
   color: white;
   flex-direction: column;
   background: #1E195B;
   flex-grow: 1;
   gap: 20px;
   padding: 20px;
+  overflow-y: scroll;
 }
 
 #form {
@@ -226,7 +227,7 @@ select {
 
 #card-list {
   background: #F6F7F9;
-  overflow-x: scroll;
+  overflow-y: scroll;
 }
 
 .card {
@@ -243,4 +244,11 @@ select {
 
 .card-titulo {
   text-align: center;
+}
+
+.card-botoes {
+  border: 1px solid #000000;
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
 }
