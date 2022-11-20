@@ -7,13 +7,15 @@ let listaDicas = [];
 
 listaCards.addEventListener("click", (event) => {
     if (event.target.className === "excluir") {
-      const id = event.target.getAttribute("id")
+      const idCardEmExclusao = event.target.getAttribute("id");
+      const tituloDica = listaDicas.find(({id}) => id === id).conteudo.titulo;
+      const indexCardExcluir = listaDicas.findIndex(({id}) => id === Number(idCardEmExclusao));
       const confirmacaoUsuario = confirm(
-        `Você tem certeza que deseja deletar a dica ${listaDicas[id].titulo}?`
+        `Você tem certeza que deseja deletar a dica ${tituloDica}?`
       );
 
       if (confirmacaoUsuario) {
-        listaDicas.splice(id, 1);
+        listaDicas.splice(indexCardExcluir, 1);
         localStorage.setItem("listaDicas", JSON.stringify(listaDicas));
         carregaListaDicas(listaCards, listaDicas);
         contabilizaCategorias();
@@ -26,30 +28,35 @@ listaCards.addEventListener("click", (event) => {
   if (event.target.className === 'editar') {
     form.removeEventListener("submit", salvarItem);
 
-    const id = event.target.getAttribute("id")
+    const idCardEmEdicao = event.target.getAttribute("id")
     const titulo = document.getElementById("titulo");
     const linguagemSkill = document.getElementById("linguagen-skill");
     const categoria = document.getElementById("categoria");
     const descricao = document.getElementById("descricao");
     const linkVideo = document.getElementById("video");
+    const indexCardEditar = listaDicas.findIndex(({id}) => id === Number(idCardEmEdicao));
+    console.log(indexCardEditar);
 
-    titulo.value = listaDicas[id].titulo;
-    linguagemSkill.value = listaDicas[id].linguagemSkill;
-    categoria.value = listaDicas[id].categoria;
-    descricao.value = listaDicas[id].descricao;
-    linkVideo.value = listaDicas[id].linkVideo;
+    titulo.value = listaDicas[indexCardEditar].conteudo.titulo;
+    linguagemSkill.value = listaDicas[indexCardEditar].conteudo.linguagemSkill;
+    categoria.value = listaDicas[indexCardEditar].conteudo.categoria;
+    descricao.value = listaDicas[indexCardEditar].conteudo.descricao;
+    linkVideo.value = listaDicas[indexCardEditar].conteudo.linkVideo;
 
     alert("As informações da dica selecionada para edição serão enviadas para a barra lateral.\n" +
       "Realize as devidas edições e clique em Salvar para finalizar.");
 
     form.addEventListener("submit", () => {
 
-       listaDicas[id] = {
-         titulo: titulo.value,
-         linguagemSkill: linguagemSkill.value,
-         categoria: categoria.value,
-         descricao: descricao.value,
-         linkVideo: linkVideo.value
+       listaDicas[indexCardEditar] = {
+         id: Number(idCardEmEdicao),
+         conteudo: {
+           titulo: titulo.value,
+           linguagemSkill: linguagemSkill.value,
+           categoria: categoria.value,
+           descricao: descricao.value,
+           linkVideo: linkVideo.value
+         }
        };
 
       localStorage.setItem("listaDicas", JSON.stringify(listaDicas));
@@ -101,10 +108,10 @@ function carregaListaDicas(listaCards, listaDicas) {
       const iconeExcluir = document.createElement("img");
       const iconeVideo = document.createElement("img");
 
-      cardTitulo.textContent = item.titulo;
+      cardTitulo.textContent = item.conteudo.titulo;
 
-      cardPrimeiroSubtitulo.textContent = `Linguagem/Skill: ${item.linguagemSkill}`;
-      cardSegundoSubtitulo.textContent = `Categoria: ${item.categoria}`;
+      cardPrimeiroSubtitulo.textContent = `Linguagem/Skill: ${item.conteudo.linguagemSkill}`;
+      cardSegundoSubtitulo.textContent = `Categoria: ${item.conteudo.categoria}`;
       cardParagrafo.textContent = item.descricao;
 
       iconeEditar.setAttribute("src", "./icons/editar.png");
@@ -112,7 +119,7 @@ function carregaListaDicas(listaCards, listaDicas) {
       iconeVideo.setAttribute("src", "./icons/video.png");
 
       card.setAttribute("class", "card");
-      card.setAttribute("id", `${listaDicas.indexOf(item)}`);
+      card.setAttribute("id", `${item.id}`);
 
       containerBotoes.setAttribute("class", "cards-botoes");
       cardPrimeiroSubtitulo.setAttribute("class", "card-titulo");
@@ -120,17 +127,17 @@ function carregaListaDicas(listaCards, listaDicas) {
       botaoEditar.appendChild(iconeEditar);
       botaoExcluir.appendChild(iconeExcluir);
 
-      botaoExcluir.setAttribute("id", listaDicas.indexOf(item).toString());
+      botaoExcluir.setAttribute("id", `${item.id}`);
       botaoExcluir.setAttribute("class", "excluir");
 
       botaoEditar.setAttribute("class", "editar");
-      botaoEditar.setAttribute("id", listaDicas.indexOf(item).toString());
+      botaoEditar.setAttribute("id", `${item.id}`);
 
       containerBotoes.appendChild(botaoExcluir);
       containerBotoes.appendChild(botaoEditar);
-      if (item.linkVideo) {
+      if (item.conteudo.linkVideo) {
         linkVideo.appendChild(iconeVideo);
-        linkVideo.setAttribute("href", item.linkVideo);
+        linkVideo.setAttribute("href", item.conteudo.linkVideo);
         containerBotoes.appendChild(linkVideo);
       }
       container.appendChild(cardTitulo);
@@ -155,12 +162,16 @@ function salvarItem(event) {
   const linkVideo = document.getElementById("video");
 
   listaDicas.push({
-    titulo: titulo.value,
-    linguagemSkill: linguagemSkill.value,
-    categoria: categoria.value,
-    descricao: descricao.value,
-    linkVideo: linkVideo.value
+    id: Date.now(),
+    conteudo: {
+      titulo: titulo.value,
+      linguagemSkill: linguagemSkill.value,
+      categoria: categoria.value,
+      descricao: descricao.value,
+      linkVideo: linkVideo.value
+    }
   });
+
 
   localStorage.setItem("listaDicas", JSON.stringify(listaDicas));
 
@@ -181,7 +192,7 @@ function contabilizaCategorias() {
   let softSkill = 0;
 
   listaDicas.forEach(item => {
-    switch (item.categoria) {
+    switch (item.conteudo.categoria) {
       case "FrontEnd":
         frontEnd++;
         break;
@@ -221,8 +232,8 @@ function pesquisaTitulo(event) {
   const termoPesquisado = document.getElementById("campo-pesquisar-titulo");
   // const listaCards = document.getElementById("lista-de-cards");
 
-  const listaDicasFitrada = listaDicas.filter(({ titulo }) => {
-    return titulo.toLowerCase().includes(termoPesquisado.value.toLowerCase());
+  const listaDicasFitrada = listaDicas.filter(({ conteudo }) => {
+    return conteudo.titulo.toLowerCase().includes(termoPesquisado.value.toLowerCase());
   });
 
   carregaListaDicas(listaCards, listaDicasFitrada);
