@@ -1,5 +1,8 @@
 const form = document.getElementById("form");
 const listaCards = document.getElementById("lista-de-cards");
+const botaoPesquisar = document.getElementById("botao-pesquisar");
+const botaoLimparPesquisa = document.getElementById("botao-limpar-pesquisa");
+
 let listaDicas = [];
 
 listaCards.addEventListener("click", (event) => {
@@ -12,7 +15,7 @@ listaCards.addEventListener("click", (event) => {
       if (confirmacaoUsuario) {
         listaDicas.splice(id, 1);
         localStorage.setItem("listaDicas", JSON.stringify(listaDicas));
-        carregaListaDicas();
+        carregaListaDicas(listaCards, listaDicas);
         contabilizaCategorias();
       }
     }
@@ -51,7 +54,7 @@ listaCards.addEventListener("click", (event) => {
 
       localStorage.setItem("listaDicas", JSON.stringify(listaDicas));
 
-       carregaListaDicas();
+       carregaListaDicas(listaCards, listaDicas);
 
        contabilizaCategorias();
 
@@ -71,69 +74,75 @@ function verificaLocalStorage() {
   }
 
 }
-function carregaListaDicas() {
+function carregaListaDicas(listaCards, listaDicas) {
 
   while (listaCards.hasChildNodes()) {
     listaCards.removeChild(listaCards.firstChild);
   }
+  if (listaDicas.length === 0) {
+    const mensagemListaVazia = document.createElement("p");
+    listaCards.appendChild(mensagemListaVazia);
+    mensagemListaVazia.innerText = "Nenhum item...";
+  } else {
 
-  listaDicas.forEach(item => {
+    listaDicas.forEach(item => {
 
-    const card = document.createElement("li");
-    const container = document.createElement("div");
-    const cardTitulo = document.createElement("h3");
-    const cardPrimeiroSubtitulo = document.createElement("p");
-    const cardSegundoSubtitulo = document.createElement("p");
-    const cardParagrafo = document.createElement("p");
-    const containerBotoes = document.createElement("div");
-    const linkVideo = document.createElement("a");
-    const botaoEditar = document.createElement("button");
-    const botaoExcluir = document.createElement("button");
-    const iconeEditar = document.createElement("img");
-    const iconeExcluir = document.createElement("img");
-    const iconeVideo = document.createElement("img");
+      const card = document.createElement("li");
+      const container = document.createElement("div");
+      const cardTitulo = document.createElement("h3");
+      const cardPrimeiroSubtitulo = document.createElement("p");
+      const cardSegundoSubtitulo = document.createElement("p");
+      const cardParagrafo = document.createElement("p");
+      const containerBotoes = document.createElement("div");
+      const linkVideo = document.createElement("a");
+      const botaoEditar = document.createElement("button");
+      const botaoExcluir = document.createElement("button");
+      const iconeEditar = document.createElement("img");
+      const iconeExcluir = document.createElement("img");
+      const iconeVideo = document.createElement("img");
 
-    cardTitulo.textContent = item.titulo;
+      cardTitulo.textContent = item.titulo;
 
-    cardPrimeiroSubtitulo.textContent = `Linguagem/Skill: ${item.linguagemSkill}`;
-    cardSegundoSubtitulo.textContent = `Categoria: ${item.categoria}`;
-    cardParagrafo.textContent = item.descricao;
+      cardPrimeiroSubtitulo.textContent = `Linguagem/Skill: ${item.linguagemSkill}`;
+      cardSegundoSubtitulo.textContent = `Categoria: ${item.categoria}`;
+      cardParagrafo.textContent = item.descricao;
 
-    iconeEditar.setAttribute("src", "./icons/editar.png");
-    iconeExcluir.setAttribute("src", "./icons/excluir.png");
-    iconeVideo.setAttribute("src", "./icons/video.png");
+      iconeEditar.setAttribute("src", "./icons/editar.png");
+      iconeExcluir.setAttribute("src", "./icons/excluir.png");
+      iconeVideo.setAttribute("src", "./icons/video.png");
 
-    card.setAttribute("class", "card");
-    card.setAttribute("id", `card-${listaDicas.indexOf(item)}`);
+      card.setAttribute("class", "card");
+      card.setAttribute("id", `${listaDicas.indexOf(item)}`);
 
-    containerBotoes.setAttribute("class", "cards-botoes");
-    cardPrimeiroSubtitulo.setAttribute("class", "card-titulo");
+      containerBotoes.setAttribute("class", "cards-botoes");
+      cardPrimeiroSubtitulo.setAttribute("class", "card-titulo");
 
-    botaoEditar.appendChild(iconeEditar);
-    botaoExcluir.appendChild(iconeExcluir);
+      botaoEditar.appendChild(iconeEditar);
+      botaoExcluir.appendChild(iconeExcluir);
 
-    botaoExcluir.setAttribute("id", listaDicas.indexOf(item).toString());
-    botaoExcluir.setAttribute("class", "excluir");
+      botaoExcluir.setAttribute("id", listaDicas.indexOf(item).toString());
+      botaoExcluir.setAttribute("class", "excluir");
 
-    botaoEditar.setAttribute("class", "editar");
-    botaoEditar.setAttribute("id", listaDicas.indexOf(item).toString());
+      botaoEditar.setAttribute("class", "editar");
+      botaoEditar.setAttribute("id", listaDicas.indexOf(item).toString());
 
-    containerBotoes.appendChild(botaoExcluir);
-    containerBotoes.appendChild(botaoEditar);
-    if (item.linkVideo) {
-      linkVideo.appendChild(iconeVideo);
-      linkVideo.setAttribute("href", item.linkVideo);
-      containerBotoes.appendChild(linkVideo);
-    }
-    container.appendChild(cardTitulo);
-    container.appendChild(cardPrimeiroSubtitulo);
-    container.appendChild(cardSegundoSubtitulo);
-    container.appendChild(cardParagrafo);
-    container.appendChild(containerBotoes);
-    card.appendChild(container);
+      containerBotoes.appendChild(botaoExcluir);
+      containerBotoes.appendChild(botaoEditar);
+      if (item.linkVideo) {
+        linkVideo.appendChild(iconeVideo);
+        linkVideo.setAttribute("href", item.linkVideo);
+        containerBotoes.appendChild(linkVideo);
+      }
+      container.appendChild(cardTitulo);
+      container.appendChild(cardPrimeiroSubtitulo);
+      container.appendChild(cardSegundoSubtitulo);
+      container.appendChild(cardParagrafo);
+      container.appendChild(containerBotoes);
+      card.appendChild(container);
 
-    listaCards.appendChild(card);
-  });
+      listaCards.appendChild(card);
+    });
+  }
 }
 
 function salvarItem(event) {
@@ -157,7 +166,7 @@ function salvarItem(event) {
 
   form.reset();
 
-  carregaListaDicas();
+  carregaListaDicas(listaCards, listaDicas);
 
   contabilizaCategorias();
 
@@ -206,8 +215,29 @@ function contabilizaCategorias() {
 
 }
 
+function pesquisaTitulo(event) {
+  event.preventDefault();
+
+  const termoPesquisado = document.getElementById("campo-pesquisar-titulo");
+  // const listaCards = document.getElementById("lista-de-cards");
+
+  const listaDicasFitrada = listaDicas.filter(({ titulo }) => {
+    return titulo.toLowerCase().includes(termoPesquisado.value.toLowerCase());
+  });
+
+  carregaListaDicas(listaCards, listaDicasFitrada);
+
+}
+
+function limparPesquisa() {
+
+}
 
 window.addEventListener("load", verificaLocalStorage);
-window.addEventListener("load", carregaListaDicas);
+window.addEventListener("load", () => {
+  carregaListaDicas(listaCards, listaDicas);
+});
 window.addEventListener("load", contabilizaCategorias);
 form.addEventListener("submit", salvarItem);
+botaoPesquisar.addEventListener("click", pesquisaTitulo);
+botaoLimparPesquisa.addEventListener("click", limparPesquisa)
