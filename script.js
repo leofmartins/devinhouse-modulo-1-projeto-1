@@ -9,7 +9,9 @@ listaCards.addEventListener("click", (event) => {
     if (event.target.className === "excluir") {
       const idCardEmExclusao = event.target.getAttribute("id");
       const tituloDica = listaDicas.find(({id}) => id === id).conteudo.titulo;
-      const indexCardExcluir = listaDicas.findIndex(({id}) => id === Number(idCardEmExclusao));
+      const indexCardExcluir = listaDicas.findIndex(
+        ({id}) => id === Number(idCardEmExclusao)
+      );
       const confirmacaoUsuario = confirm(
         `Você tem certeza que deseja deletar a dica ${tituloDica}?`
       );
@@ -28,13 +30,15 @@ listaCards.addEventListener("click", (event) => {
   if (event.target.className === 'editar') {
     form.removeEventListener("submit", salvarItem);
 
-    const idCardEmEdicao = event.target.getAttribute("id")
+    const idCardEmEdicao = event.target.getAttribute("id");
     const titulo = document.getElementById("titulo");
     const linguagemSkill = document.getElementById("linguagen-skill");
     const categoria = document.getElementById("categoria");
     const descricao = document.getElementById("descricao");
     const linkVideo = document.getElementById("video");
-    const indexCardEditar = listaDicas.findIndex(({id}) => id === Number(idCardEmEdicao));
+    const indexCardEditar = listaDicas.findIndex(
+      ({id}) => id === Number(idCardEmEdicao)
+    );
     console.log(indexCardEditar);
 
     titulo.value = listaDicas[indexCardEditar].conteudo.titulo;
@@ -43,8 +47,9 @@ listaCards.addEventListener("click", (event) => {
     descricao.value = listaDicas[indexCardEditar].conteudo.descricao;
     linkVideo.value = listaDicas[indexCardEditar].conteudo.linkVideo;
 
-    alert("As informações da dica selecionada para edição serão enviadas para a barra lateral.\n" +
-      "Realize as devidas edições e clique em Salvar para finalizar.");
+    alert("As informações da dica selecionada para edição" +
+      "serão enviadas para a barra lateral. Realize as devidas" +
+      "edições e clique em Salvar para finalizar.");
 
     form.addEventListener("submit", () => {
 
@@ -68,8 +73,7 @@ listaCards.addEventListener("click", (event) => {
        alert("Item editado com sucesso.");
 
        form.addEventListener("submit", salvarItem);
-    })
-
+    });
   }
 });
 
@@ -110,9 +114,11 @@ function carregaListaDicas(listaCards, listaDicas) {
 
       cardTitulo.textContent = item.conteudo.titulo;
 
-      cardPrimeiroSubtitulo.textContent = `Linguagem/Skill: ${item.conteudo.linguagemSkill}`;
-      cardSegundoSubtitulo.textContent = `Categoria: ${item.conteudo.categoria}`;
-      cardParagrafo.textContent = item.descricao;
+      cardPrimeiroSubtitulo.textContent =
+        `Linguagem/Skill: ${item.conteudo.linguagemSkill}`;
+      cardSegundoSubtitulo.textContent =
+        `Categoria: ${item.conteudo.categoria}`;
+      cardParagrafo.textContent = item.conteudo.descricao;
 
       iconeEditar.setAttribute("src", "./icons/editar.png");
       iconeExcluir.setAttribute("src", "./icons/excluir.png");
@@ -233,7 +239,9 @@ function pesquisaTitulo(event) {
   // const listaCards = document.getElementById("lista-de-cards");
 
   const listaDicasFitrada = listaDicas.filter(({ conteudo }) => {
-    return conteudo.titulo.toLowerCase().includes(termoPesquisado.value.toLowerCase());
+    return conteudo.titulo.toLowerCase().includes(
+      termoPesquisado.value.toLowerCase()
+    );
   });
 
   carregaListaDicas(listaCards, listaDicasFitrada);
@@ -241,7 +249,10 @@ function pesquisaTitulo(event) {
 }
 
 function limparPesquisa() {
+  const campoPesquisa = document.getElementById("campo-pesquisar-titulo");
+  campoPesquisa.value = null;
 
+  carregaListaDicas(listaCards, listaDicas);
 }
 
 window.addEventListener("load", verificaLocalStorage);
@@ -251,4 +262,4 @@ window.addEventListener("load", () => {
 window.addEventListener("load", contabilizaCategorias);
 form.addEventListener("submit", salvarItem);
 botaoPesquisar.addEventListener("click", pesquisaTitulo);
-botaoLimparPesquisa.addEventListener("click", limparPesquisa)
+botaoLimparPesquisa.addEventListener("click", limparPesquisa);
