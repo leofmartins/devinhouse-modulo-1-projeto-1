@@ -2,88 +2,25 @@ const form = document.getElementById("form");
 const listaCards = document.getElementById("lista-de-cards");
 const botaoPesquisar = document.getElementById("botao-pesquisar");
 const botaoLimparPesquisa = document.getElementById("botao-limpar-pesquisa");
+let titulo = document.getElementById("titulo");
+let linguagemSkill = document.getElementById("linguagen-skill");
+let categoria = document.getElementById("categoria");
+let descricao = document.getElementById("descricao");
+let linkVideo = document.getElementById("video");
+let indexCardEditar = 0;
+let idCardEmEdicao = 0;
 
 let listaDicas = [];
-
-listaCards.addEventListener("click", (event) => {
-    if (event.target.className === "excluir") {
-      const idCardEmExclusao = event.target.getAttribute("id");
-      const tituloDica = listaDicas.find(({id}) => id === id).conteudo.titulo;
-      const indexCardExcluir = listaDicas.findIndex(
-        ({id}) => id === Number(idCardEmExclusao)
-      );
-      const confirmacaoUsuario = confirm(
-        `Você tem certeza que deseja deletar a dica ${tituloDica}?`
-      );
-
-      if (confirmacaoUsuario) {
-        listaDicas.splice(indexCardExcluir, 1);
-        localStorage.setItem("listaDicas", JSON.stringify(listaDicas));
-        carregaListaDicas(listaCards, listaDicas);
-        contabilizaCategorias();
-      }
-    }
-  }
-);
-
-listaCards.addEventListener("click", (event) => {
-  if (event.target.className === 'editar') {
-    form.removeEventListener("submit", salvarItem);
-
-    const idCardEmEdicao = event.target.getAttribute("id");
-    const titulo = document.getElementById("titulo");
-    const linguagemSkill = document.getElementById("linguagen-skill");
-    const categoria = document.getElementById("categoria");
-    const descricao = document.getElementById("descricao");
-    const linkVideo = document.getElementById("video");
-    const indexCardEditar = listaDicas.findIndex(
-      ({id}) => id === Number(idCardEmEdicao)
-    );
-    console.log(indexCardEditar);
-
-    titulo.value = listaDicas[indexCardEditar].conteudo.titulo;
-    linguagemSkill.value = listaDicas[indexCardEditar].conteudo.linguagemSkill;
-    categoria.value = listaDicas[indexCardEditar].conteudo.categoria;
-    descricao.value = listaDicas[indexCardEditar].conteudo.descricao;
-    linkVideo.value = listaDicas[indexCardEditar].conteudo.linkVideo;
-
-    alert("As informações da dica selecionada para edição" +
-      "serão enviadas para a barra lateral. Realize as devidas" +
-      "edições e clique em Salvar para finalizar.");
-
-    form.addEventListener("submit", () => {
-
-       listaDicas[indexCardEditar] = {
-         id: Number(idCardEmEdicao),
-         conteudo: {
-           titulo: titulo.value,
-           linguagemSkill: linguagemSkill.value,
-           categoria: categoria.value,
-           descricao: descricao.value,
-           linkVideo: linkVideo.value
-         }
-       };
-
-      localStorage.setItem("listaDicas", JSON.stringify(listaDicas));
-
-       carregaListaDicas(listaCards, listaDicas);
-
-       contabilizaCategorias();
-
-       alert("Item editado com sucesso.");
-
-       form.addEventListener("submit", salvarItem);
-    });
-  }
-});
 
 function verificaLocalStorage() {
   if (localStorage.getItem("listaDicas")) {
     listaDicas = JSON.parse(localStorage.getItem("listaDicas"));
+    if (!listaDicas.every(item => item.id && item.conteudo)) {
+      localStorage.setItem("listaDicas", "[]");
+    }
   } else {
     localStorage.setItem("listaDicas", "[]");
   }
-
 }
 function carregaListaDicas(listaCards, listaDicas) {
 
@@ -161,11 +98,7 @@ function carregaListaDicas(listaCards, listaDicas) {
 function salvarItem(event) {
   event.preventDefault();
 
-  const titulo = document.getElementById("titulo");
-  const linguagemSkill = document.getElementById("linguagen-skill");
-  const categoria = document.getElementById("categoria");
-  const descricao = document.getElementById("descricao");
-  const linkVideo = document.getElementById("video");
+  capturaValoresDoForm();
 
   listaDicas.push({
     id: Date.now(),
@@ -188,6 +121,44 @@ function salvarItem(event) {
   contabilizaCategorias();
 
   alert("SUCESSO!\n\nDica cadastrada na base do conhecimento.");
+}
+
+function capturaValoresDoForm() {
+  titulo = document.getElementById("titulo");
+  linguagemSkill = document.getElementById("linguagen-skill");
+  categoria = document.getElementById("categoria");
+  descricao = document.getElementById("descricao");
+  linkVideo = document.getElementById("video");
+}
+
+function editarItem(event) {
+  event.preventDefault();
+
+  capturaValoresDoForm();
+
+  listaDicas[indexCardEditar] = {
+    id: Number(idCardEmEdicao),
+    conteudo: {
+      titulo: titulo.value,
+      linguagemSkill: linguagemSkill.value,
+      categoria: categoria.value,
+      descricao: descricao.value,
+      linkVideo: linkVideo.value
+    }
+  };
+
+  form.reset();
+
+  localStorage.setItem("listaDicas", JSON.stringify(listaDicas));
+
+  carregaListaDicas(listaCards, listaDicas);
+
+  contabilizaCategorias();
+
+  alert("Item editado com sucesso.");
+
+  form.removeEventListener("submit", editarItem);
+  form.addEventListener("submit", salvarItem);
 }
 
 function contabilizaCategorias() {
@@ -236,7 +207,6 @@ function pesquisaTitulo(event) {
   event.preventDefault();
 
   const termoPesquisado = document.getElementById("campo-pesquisar-titulo");
-  // const listaCards = document.getElementById("lista-de-cards");
 
   const listaDicasFitrada = listaDicas.filter(({ conteudo }) => {
     return conteudo.titulo.toLowerCase().includes(
@@ -256,10 +226,58 @@ function limparPesquisa() {
 }
 
 window.addEventListener("load", verificaLocalStorage);
+
 window.addEventListener("load", () => {
   carregaListaDicas(listaCards, listaDicas);
 });
+
 window.addEventListener("load", contabilizaCategorias);
+
 form.addEventListener("submit", salvarItem);
+
 botaoPesquisar.addEventListener("click", pesquisaTitulo);
+
 botaoLimparPesquisa.addEventListener("click", limparPesquisa);
+
+listaCards.addEventListener("click", event => {
+  if (event.target.className === "editar") {
+    form.removeEventListener("submit", salvarItem);
+    form.addEventListener("submit", editarItem);
+
+    idCardEmEdicao = event.target.getAttribute("id");
+    indexCardEditar = listaDicas.findIndex(
+      ({id}) => id === Number(idCardEmEdicao)
+    );
+
+    titulo.value = listaDicas[indexCardEditar].conteudo.titulo;
+    linguagemSkill.value = listaDicas[indexCardEditar].conteudo.linguagemSkill;
+    categoria.value = listaDicas[indexCardEditar].conteudo.categoria;
+    descricao.value = listaDicas[indexCardEditar].conteudo.descricao;
+    linkVideo.value = listaDicas[indexCardEditar].conteudo.linkVideo;
+
+    alert("As informações da dica selecionada para edição" +
+      "serão enviadas para a barra lateral. Realize as devidas" +
+      "edições e clique em Salvar para finalizar.");
+  }
+});
+
+listaCards.addEventListener("click", (event) => {
+    if (event.target.className === "excluir") {
+      const idCardEmExclusao = event.target.getAttribute("id");
+      const tituloDica = listaDicas.find(({ id }) => id === id).conteudo.titulo;
+      const indexCardExcluir = listaDicas.findIndex(
+        ({ id }) => id === Number(idCardEmExclusao)
+      );
+      const confirmacaoUsuario = confirm(
+        `Você tem certeza que deseja deletar a dica ${tituloDica}?`
+      );
+
+      if (confirmacaoUsuario) {
+        listaDicas.splice(indexCardExcluir, 1);
+        localStorage.setItem("listaDicas", JSON.stringify(listaDicas));
+        carregaListaDicas(listaCards, listaDicas);
+        contabilizaCategorias();
+      }
+    }
+  }
+);
