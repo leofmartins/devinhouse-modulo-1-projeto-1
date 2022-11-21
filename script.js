@@ -42,7 +42,7 @@ function carregaListaDicas(listaCards, listaDicas) {
       const cardSegundoSubtitulo = document.createElement("p");
       const cardParagrafo = document.createElement("p");
       const containerBotoes = document.createElement("div");
-      const linkVideo = document.createElement("a");
+      const botaoVideo = document.createElement("button");
       const botaoEditar = document.createElement("button");
       const botaoExcluir = document.createElement("button");
       const iconeEditar = document.createElement("img");
@@ -76,9 +76,9 @@ function carregaListaDicas(listaCards, listaDicas) {
       containerBotoes.appendChild(botaoExcluir);
       containerBotoes.appendChild(botaoEditar);
       if (item.conteudo.linkVideo) {
-        linkVideo.appendChild(iconeVideo);
-        linkVideo.setAttribute("href", item.conteudo.linkVideo);
-        containerBotoes.appendChild(linkVideo);
+        botaoVideo.appendChild(iconeVideo);
+        botaoVideo.setAttribute("onclick", `location.href='${item.conteudo.linkVideo}'`);
+        containerBotoes.appendChild(botaoVideo);
       }
       container.appendChild(cardTitulo);
       container.appendChild(cardPrimeiroSubtitulo);

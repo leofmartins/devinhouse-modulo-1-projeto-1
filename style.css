@@ -319,7 +319,15 @@ button > img {
 }
 
 a > img {
+  display: flex;
   align-content: center;
   width: 20px;
   height: 20px;
+}
+
+.botao-video {
+  border: 1px solid #000000;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
 }
