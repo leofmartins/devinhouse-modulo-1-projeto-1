@@ -12,5 +12,5 @@ Um dos requisitos foi que deveria haver persistência de dados, ou seja, as dica
 Para ter uma descrição completa dos requisitos e comportamentos da aplicação, leia o [documento do projeto](https://docs.google.com/document/d/1yJ8oHg1D5aGI8BOc3kRzrJcQBtMOTImaFSyMYkVxm1I/).
 
 ## Como visualizar o projeto
-Para rodar o projeto, faça o clone (`git clone`) do repositório para o seu PC/Mac e abra-o em uma IDE ou edidor de código de sua preferência. Você vai precisar de um servidor web. Sugerimos o [LiveServer,](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) caso utilize VS VSCode.
+Para rodar o projeto, faça o clone (`git clone`) do repositório para o seu PC/Mac e abra-o em uma IDE ou edidor de código de sua preferência. Você vai precisar de um servidor web. Sugerimos o [LiveServer,](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) caso utilize Visual Studo Code. Uma IDE como o WebStorm já provê um servidor nativo.
 Esta implementação do projeto faz um do LocalStorage para armezenar os dados. No carregamento da página, ele faz a leitura do LocalStorage e procura pela chave listaDicas. Provavelmente, não haverá essa chave no seu navegador. O site irá carregar com valores zerados. 
