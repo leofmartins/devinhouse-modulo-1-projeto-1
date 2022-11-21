@@ -50,11 +50,8 @@ function carregaListaDicas(listaCards, listaDicas) {
       const iconeVideo = document.createElement("img");
 
       cardTitulo.textContent = item.conteudo.titulo;
-
-      cardPrimeiroSubtitulo.textContent =
-        `Linguagem/Skill: ${item.conteudo.linguagemSkill}`;
-      cardSegundoSubtitulo.textContent =
-        `Categoria: ${item.conteudo.categoria}`;
+      cardPrimeiroSubtitulo.innerHTML = "<strong>Linguagem: </strong>" + item.conteudo.linguagemSkill;
+      cardSegundoSubtitulo.innerHTML = "<strong>Comportamento/Skill: </strong>" + item.conteudo.categoria;
       cardParagrafo.textContent = item.conteudo.descricao;
 
       iconeEditar.setAttribute("src", "./icons/editar.png");
