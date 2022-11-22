@@ -5,7 +5,7 @@ Projeto avaliativo 1 do Módulo 1 do DEVin[House] turma Philips
 ![Screenshot from 2022-11-21 22-00-24](https://user-images.githubusercontent.com/91170338/203189055-4df996e0-57a3-464c-a700-f41f08e7ba31.png)
 
 
- 1. Intrução
+ 1. Introdução
  2. Características
  3. Como visualizar o projeto
 
